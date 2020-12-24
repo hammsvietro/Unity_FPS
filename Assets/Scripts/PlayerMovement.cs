@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     // Serialized
-    [SerializeField] private Rigidbody rb;
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float walkForce = 1f;
     [SerializeField] private float raycastDown = 2.1f;
+    [SerializeField] private float additionalGravity = 1f;
 
     // Private
     Vector3 walk;
+    private Rigidbody rb;
 
 
     void Start()
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        AddGravity();
     }
 
     void Jump()
@@ -56,5 +58,10 @@ public class PlayerMovement : MonoBehaviour
 
         rb.MovePosition(rb.position + rb.transform.TransformDirection(newDir));
 
+    }
+
+    void AddGravity()
+    {
+        rb.AddForce(-transform.up * additionalGravity * Time.fixedDeltaTime, ForceMode.Acceleration);
     }
 }

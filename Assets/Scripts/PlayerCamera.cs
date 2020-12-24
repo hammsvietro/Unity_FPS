@@ -24,9 +24,6 @@ public class PlayerCamera : MonoBehaviour
         RotateCamera();
     }
 
-
-
-
     void RotateCamera()
     {
         Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
