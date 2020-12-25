@@ -9,11 +9,25 @@ public class ShootEvent : MonoBehaviour
     
     public static event ShootAction OnShoot;
 
+    public float MaxShotsPerSecond;
+    private bool canFire = true;
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        StartCoroutine(Shoot());
+    }
+
+    private IEnumerator Shoot()
+    {
+        if (Input.GetMouseButtonDown(0) && canFire)
         {
+            canFire = false;
+
             OnShoot?.Invoke();
+
+            yield return new WaitForSeconds(1/MaxShotsPerSecond);
+
+            canFire = true;
         }
     }
 }

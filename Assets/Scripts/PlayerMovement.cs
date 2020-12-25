@@ -9,10 +9,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float walkForce = 1f;
     [SerializeField] private float raycastDown = 2.1f;
     [SerializeField] private float additionalGravity = 1f;
+    [SerializeField] private float runningMultiplier = 3f;
 
     // Private
     Vector3 walk;
     private Rigidbody rb;
+    private bool isRunning;
 
 
     void Start()
@@ -26,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         walk.x = Input.GetAxisRaw("Horizontal");
         walk.z = Input.GetAxisRaw("Vertical");
+        isRunning = Input.GetKey(KeyCode.LeftShift);
+
     }
 
     void FixedUpdate()
@@ -55,9 +59,8 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         var newDir = new Vector3(walk.x, 0, walk.z) * walkForce * Time.fixedDeltaTime;
-
+        if (isRunning) newDir *= runningMultiplier;
         rb.MovePosition(rb.position + rb.transform.TransformDirection(newDir));
-
     }
 
     void AddGravity()
